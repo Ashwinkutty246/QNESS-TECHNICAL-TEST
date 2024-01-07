@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Contact Manager</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        #contact-manager {
+            display: flex;
+            max-width: 800px;
+            margin: 20px auto;
+        }
+
+        .folders {
+            width: 100px;
+            background-color: #e0e0e0;
+            padding: 10px;
+        }
+
+        .folder {
+            cursor: pointer;
+            margin-bottom: 5px;
+        }
+
+        .contacts {
+            flex-grow: 1;
+            padding: 10px;
+            overflow-y: auto;
+        }
+
+        .contact {
+            cursor: pointer;
+            margin-bottom: 5px;
+        }
+
+        .friends, .family, .work {
+            display: none;
+        }
+
+        .info-panel {
+            width: 200px;
+            background-color: #e0e0e0;
+            padding: 10px;
+        }
+
+        .field {
+            margin-bottom: 5px;
+        }
+
+        .greeting, .field {
+            text-align: right;
+            border: 1px solid black;
+            padding: 2px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .show {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div id="contact-manager">
+        <div class="folders">
+            <div class="folder" onclick="toggleFolder('friends')">Friends</div>
+            <div class="folder" onclick="toggleFolder('family')">Family</div>
+            <div class="folder" onclick="toggleFolder('work')">Work</div>
+        </div>
+        <div class="contacts">
+            <div class="friends" onclick="selectContact(this, 'Jean-Louis Durant')">Jean-Louis Durant</div>
+            <div class="friends" onclick="selectContact(this, 'René Norega')">René Norega</div>
+            <div class="family" onclick="selectContact(this, 'Daphné Maurier')">Daphné Maurier</div>
+            <div class="family" onclick="selectContact(this, 'Michael Moorcock')">Michael Moorcock</div>
+            <div class="work" onclick="selectContact(this, 'Steve Balmer')">Steve Balmer</div>
+            <div class="work" onclick="selectContact(this, 'Stan Lee')">Stan Lee</div>
+        </div>
+        <div class="info-panel">
+            <div class="greeting">Greeting:</div>
+            <div class="field">First Name:</div>
+            <div class="field">Last Name:</div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+        function toggleFolder(folder) {
+            const friends = document.querySelectorAll('.friends');
+            const family = document.querySelectorAll('.family');
+            const work = document.querySelectorAll('.work');
+
+            friends.forEach((friend) => friend.classList.remove('show'));
+            family.forEach((familyMember) => familyMember.classList.remove('show'));
+            work.forEach((colleague) => colleague.classList.remove('show'));
+
+            if (folder === 'friends') {
+                friends.forEach((friend) => friend.classList.add('show'));
+            } else if (folder === 'family') {
+                family.forEach((familyMember) => familyMember.classList.add('show'));
+            } else if (folder === 'work') {
+                work.forEach((colleague) => colleague.classList.add('show'));
+            }
+        }
+
+        function selectContact(contactElement, name) {
+            const contacts = document.querySelectorAll('.contact');
+            contacts.forEach((contact) => {
+                contact.classList.remove('selected');
+            });
+
+            contactElement.classList.add('selected');
+
+            const greetingElement = document.querySelector('.greeting');
+            const firstNameElement = document.querySelector('.field:nth-child(2)');
+            const lastNameElement = document.querySelector('.field:nth-child(3)');
+
+            greetingElement.textContent = `Greeting: Hi ${name}!`;
+            firstNameElement.textContent = `First Name: ${name.split(' ')[0]}`;
+            lastNameElement.textContent = `Last Name: ${name.split(' ')[1]}`;
+        }
+    </script>
+</body>
+</html>
