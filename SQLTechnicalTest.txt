@@ -1,0 +1,86 @@
+create database TechnicalTest;
+use TechnicalTest;
+CREATE TABLE Portfolio (
+    portfolio VARCHAR(50),
+   
+    PRIMARY KEY (portfolio)
+);
+
+CREATE TABLE Securitys (
+    securitys VARCHAR(34),
+    PRIMARY KEY (securitys)
+);
+
+CREATE TABLE Transaction (
+    code INT,
+    securitys VARCHAR(34),
+    portfolio VARCHAR(50),
+    status VARCHAR(30),
+    PRIMARY KEY (code),
+    FOREIGN KEY (securitys) REFERENCES Securitys(securitys),
+    FOREIGN KEY (portfolio) REFERENCES Portfolio(portfolio)
+);
+
+
+
+
+//Write a query to list all transactions with status=9
+
+sSELECT *
+FROM Transaction t
+JOIN Securitys s ON t.securitys = s.securitys
+JOIN Portfolio p ON t.portfolio = p.portfolio
+WHERE t.status = 9;
+
+
+
+//Write a query to list all transactions with status=9 and displays portfolio name and security name for each transaction
+SELECT
+    t.code,
+    t.securitys,
+    t.portfolio,
+    t.status,
+    s.securitys AS security_name,
+    p.portfolio AS portfolio_name
+FROM Transaction t
+JOIN Securitys s ON t.securitys = s.securitys
+JOIN Portfolio p ON t.portfolio = p.portfolio
+WHERE t.status = '9';
+
+
+
+//Write a query that gives which couple (security, portfolio) has more transactions.
+
+Write a query that gives a list of all transaction linked only to security and portfolio having onoff  = 1
+SELECT
+    securitys AS security_name,
+    portfolio AS portfolio_name,
+    COUNT(*) AS transaction_count
+FROM Transaction
+GROUP BY securitys, portfolio
+ORDER BY transaction_count DESC
+LIMIT 1;
+
+SELECT *
+FROM Transaction
+WHERE onoff = 1 AND portfolio IS NOT NULL AND securitys IS NOT NULL;
+
+
+
+
+
+//Write a query that gives a list of security, portfolio with the number of associated transactions.
+
+SELECT
+    t.securitys AS security_name,
+    t.portfolio AS portfolio_name,
+    COUNT(*) AS transaction_count
+FROM Transaction t
+GROUP BY t.securitys, t.portfolio;
+
+
+
+
+
+
+
